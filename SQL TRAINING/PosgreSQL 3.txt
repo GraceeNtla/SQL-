@@ -1,0 +1,162 @@
+-- 1. Tampilkan nama-nama konsumen segment Consumer yang pernah membeli meja
+select
+  customer_name,
+  -- segment,
+  -- subcategory
+from
+  `tokopaedi.orders`
+where
+  segment = 'Consumer'
+  and subcategory = 'Tables'
+
+-- 2. Tampilkan nama-nama konsumen dari segment Corporate dan Home Office yang berasal dari kota Los Angeles dan bertransaksi selama tahun 2018.
+select
+  customer_name
+from
+  `tokopaedi.orders`
+where
+  (segment = 'Corporate' or segment = 'Home Office')
+  and city = 'Los Angeles'
+  and (order_date >= '2018-01-01' and order_date <= '2018-12-31')
+
+-- DISTINCT -> berbeda, unik
+-- mengeliminasi row yang sama (nilai di semua kolomnya sama)
+
+select distinct subcategory from `tokopaedi.orders`
+
+-- ada segment konsumen apa aja?
+select distinct segment from `tokopaedi.orders`
+
+-- ada moda pengiriman apa aja?
+select distinct ship_mode from `tokopaedi.orders`
+
+-- menghilangkan kombinasi category dan subcategory yang duplikat
+select
+  distinct
+  category,
+  subcategory
+from
+  `tokopaedi.orders`
+
+-- BETWEEN -> DIANTARA
+select
+  *
+from
+  `tokopaedi.orders`
+where order_date between '2018-01-01' and '2018-12-31' -- inklusif (menyertakan nilai di batas)
+
+-- between ternyata applicable juga untuk semua tipe data yang berupa rentang
+-- tanggal rentang, bilangan
+
+-- semua transaksi yang salesnya di rentang 100 sampai 500
+select * from `tokopaedi.orders` where sales between 100 and 500
+
+select * from `tokopaedi.orders` where city between 'Cicaheum' and 'Padalarang'
+'Swansea City' -> bojongsoang
+
+
+-- query semua transaksi di kuarter 2 tahun 2018
+select * from `tokopaedi.orders`
+where order_date between '2018-04-01' and '2018-06-30'
+
+-- ORDER -> Mengurutkan
+select
+  *
+from
+  `tokopaedi.orders`
+order by
+  order_date -- naik
+
+-- ORDER memiliki NAIK, TURUN (NAIK 'ASC'ENDING, TURUN 'DESC'ENDING)
+select
+  *
+from
+  `tokopaedi.orders`
+order by
+  order_date asc
+
+select
+  *
+from
+  `tokopaedi.orders`
+order by
+  order_date desc
+
+select
+  *
+from
+  `tokopaedi.orders`
+order by city asc
+
+select
+  distinct
+  category,
+  subcategory
+from
+  `tokopaedi.orders`
+order by 
+  category, 
+  subcategory
+
+-- 1. SD, 2. SMP, 3. SMA
+
+-- True, False (1, 0)
+
+-- pada order by, selain bisa multiple column, masing masing kolom pun bisa diubah arahnya ASC/DESC
+select
+  *
+from
+  `tokopaedi.orders`
+order by
+  customer_name,
+  order_date desc
+
+select
+  profit,
+  discount
+from
+  `tokopaedi.orders`
+order by
+  profit desc,
+  discount desc
+
+select discount from `tokopaedi.orders` order by 1 desc
+
+-- order by profit, discount vs order by discount, profit ?
+
+select
+  profit,
+  discount
+from
+  `tokopaedi.orders`
+order by
+  discount desc,
+  profit desc
+
+select
+  order_date, --1
+  customer_name, --2
+  city --3
+from
+  `tokopaedi.orders`
+where order_date >= '2018-01-01'
+order by 1,3 desc -- order by kolom pertama dari select
+
+-- LIMIT batas jumlah data/baris
+-- 10 baris transaksi paling baru
+
+-- limit ngambil 10 baris teratas
+-- order by + limit 
+select
+  *
+from
+  `tokopaedi.orders`
+order by
+  order_date desc
+limit 10
+
+select
+  order_date,
+  format_date('%A, %Y', order_date) format_baru
+from
+  `tokopaedi.orders`

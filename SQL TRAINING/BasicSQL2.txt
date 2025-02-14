@@ -1,0 +1,9 @@
+-- menampilkan nama-nama konsumen segment Consumer yang pernah membeli meja
+select * from `tokopaedi.orders`
+where 
+segment = 'Consumer' and subcategory = 'Tables'
+
+-- menampilkan nama-nama konsumen dari segment Corporate dan Home Office yang berasal dari kota Los Angeles dan bertransaksi selama tahun 2018.
+select * from `tokopaedi.orders`
+where 
+segment in ('Corporate','Home Office') and city = 'Los Angeles' and order_date between '2018-01-01' and '2018-12-31'
